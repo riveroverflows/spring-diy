@@ -22,10 +22,11 @@ public class ApplicationContext {
     }
 
     public void initialize() {
-        final BeanScanner beanScanner = new BeanScanner(basePackageClass.getPackageName());
-        final Set<Class<?>> classes = beanScanner.scanClassesTypeAnnotatedWith(Component.class);
-        beanClasses.addAll(classes);
+        scanBeanClasses();
+        registerBean();
+    }
 
+    private void registerBean() {
         for (Class<?> beanClass : beanClasses) {
             if (isInitialized(beanClass)) {
                 return;
@@ -101,5 +102,11 @@ public class ApplicationContext {
                     .filter(bean -> bean.getClass().equals(beanClass))
                     .findFirst()
                     .orElse(null);
+    }
+
+    private void scanBeanClasses() {
+        final BeanScanner beanScanner = new BeanScanner(basePackageClass.getPackageName());
+        final Set<Class<?>> classes = beanScanner.scanClassesTypeAnnotatedWith(Component.class);
+        beanClasses.addAll(classes);
     }
 }
