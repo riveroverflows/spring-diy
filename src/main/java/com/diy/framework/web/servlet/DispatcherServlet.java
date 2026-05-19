@@ -1,5 +1,6 @@
 package com.diy.framework.web.servlet;
 
+import com.diy.app.LectureController;
 import com.diy.framework.web.mvc.Controller;
 import com.diy.framework.web.mvc.view.JspViewResolver;
 import com.diy.framework.web.mvc.view.ModelAndView;
@@ -14,17 +15,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
 
-    private final Map<String, Controller> controllers;
+    private final Map<String, Controller> controllers = new ConcurrentHashMap<>();
     private final List<ViewResolver> viewResolvers = new ArrayList<>();
 
-    public DispatcherServlet(final Map<String, Controller> controllers) {
-        this.controllers = controllers;
+    public DispatcherServlet() {
+        System.out.println("[DispatcherServlet] no args constructor is called");
+    }
+
+    @Override
+    public void init() {
+        System.out.println("[DispatcherServlet] init() is called");
+        controllers.put("/lectures", new LectureController());
         viewResolvers.add(new JspViewResolver());
         viewResolvers.add(new UrlBasedViewResolver());
+    }
+
+    public <T extends Controller> void addController(String path, T controller) {
+        controllers.put(path, controller);
     }
 
     @Override
@@ -41,8 +53,8 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         try {
-            System.out.println("[DispatcherServlet] request URI: " + uri + ", controller: " + controller);
-            final var mav = controller.handleRequest(req, resp);
+            System.out.println("[DispatcherServlet] request URI: " + uri + ", controller: " + controller.getClass().getName());
+            final ModelAndView mav = controller.handleRequest(req, resp);
             render(req, resp, mav);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -50,8 +62,8 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private void render(final HttpServletRequest req, final HttpServletResponse resp, final ModelAndView mav) throws Exception {
-        final var viewName = mav.getViewName();
-        final var view = resolveViewName(viewName);
+        final String viewName = mav.getViewName();
+        final View view = resolveViewName(viewName);
         if (view == null) {
             throw new RuntimeException("[DispatcherServlet] view not found: " + viewName);
         }
