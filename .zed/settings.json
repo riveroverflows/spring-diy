@@ -1,0 +1,21 @@
+{
+  "lsp": {
+    "jdtls": {
+      "settings": {
+        "java_home": "/Users/river/.local/share/mise/installs/java/corretto-25.0.2.10.1"
+      },
+      "initialization_options": {
+        "settings": {
+          "java": {
+            "import": {
+              "gradle": {
+                "enabled": true,
+                "wrapper": { "enabled": true }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

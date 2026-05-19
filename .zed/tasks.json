@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Run LectureApplication",
+    "command": "./gradlew",
+    "args": ["run", "--console=plain"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always"
+  },
+  {
+    "label": "Gradle build",
+    "command": "./gradlew",
+    "args": ["build", "--console=plain"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "Gradle test",
+    "command": "./gradlew",
+    "args": ["test", "--console=plain"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]

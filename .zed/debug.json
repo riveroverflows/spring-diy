@@ -1,0 +1,9 @@
+[
+  {
+    "adapter": "Java",
+    "label": "Debug LectureApplication",
+    "request": "launch",
+    "mainClass": "com.diy.app.LectureApplication",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]

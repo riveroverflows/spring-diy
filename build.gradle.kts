@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
     kotlin("jvm")
 }
 
@@ -30,6 +31,10 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper:8.5.42")
 
     implementation(kotlin("stdlib-jdk8"))
+}
+
+application {
+    mainClass = "com.diy.app.LectureApplication"
 }
 
 tasks.test {
